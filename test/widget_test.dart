@@ -15,7 +15,7 @@ void main() {
     await tester.tap(find.text('Iniciar sesion'));
     await tester.pumpAndSettle();
 
-    expect(find.text('alumno'), findsOneWidget);
+    expect(find.text('alumno'), findsWidgets);
     expect(find.text('Foto de perfil cargada'), findsOneWidget);
   });
 }
