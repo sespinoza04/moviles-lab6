@@ -76,14 +76,14 @@ class _HomePageState extends State<HomePage> {
     if (path != null) {
       return FileImage(File(path));
     }
-    return const AssetImage('perfil.png');
+    return const AssetImage('foto2.jpg');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_loggedIn ? 'Perfil de usuario' : 'Inicio de sesion'),
+        title: Text(_loggedIn ? 'Nova ID' : 'Acceso Nova'),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -132,73 +132,79 @@ class _LoginView extends StatelessWidget {
     return SingleChildScrollView(
       key: const ValueKey('login'),
       padding: const EdgeInsets.all(20),
-      child: Form(
-        key: formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 20),
-            CircleAvatar(radius: 58, backgroundImage: imageProvider),
-            const SizedBox(height: 24),
-            Text(
-              'Bienvenido',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+      child: Card(
+        elevation: 8,
+        shadowColor: Colors.black26,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        child: Padding(
+          padding: const EdgeInsets.all(22),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 8),
+                CircleAvatar(radius: 62, backgroundImage: imageProvider),
+                const SizedBox(height: 24),
+                Text(
+                  'Hola de nuevo',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Accede para personalizar tu identidad digital.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 28),
+                TextFormField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    labelText: 'Correo',
+                    prefixIcon: Icon(Icons.email_outlined),
+                  ),
+                  validator: (value) {
+                    final email = value?.trim() ?? '';
+                    if (email.isEmpty) {
+                      return 'Ingresa tu correo';
+                    }
+                    if (!email.contains('@')) {
+                      return 'Ingresa un correo valido';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 14),
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Contrasena',
+                    prefixIcon: Icon(Icons.lock_outline),
+                  ),
+                  validator: (value) {
+                    final password = value ?? '';
+                    if (password.isEmpty) {
+                      return 'Ingresa tu contrasena';
+                    }
+                    if (password.length < 6) {
+                      return 'Minimo 6 caracteres';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 22),
+                FilledButton.icon(
+                  onPressed: onLogin,
+                  icon: const Icon(Icons.arrow_forward),
+                  label: const Text('Entrar'),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Ingresa tus datos para ver y editar tu perfil.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 28),
-            TextFormField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Correo',
-                prefixIcon: Icon(Icons.email_outlined),
-              ),
-              validator: (value) {
-                final email = value?.trim() ?? '';
-                if (email.isEmpty) {
-                  return 'Ingresa tu correo';
-                }
-                if (!email.contains('@')) {
-                  return 'Ingresa un correo valido';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 14),
-            TextFormField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Contrasena',
-                prefixIcon: Icon(Icons.lock_outline),
-              ),
-              validator: (value) {
-                final password = value ?? '';
-                if (password.isEmpty) {
-                  return 'Ingresa tu contrasena';
-                }
-                if (password.length < 6) {
-                  return 'Minimo 6 caracteres';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 22),
-            FilledButton.icon(
-              onPressed: onLogin,
-              icon: const Icon(Icons.login),
-              label: const Text('Iniciar sesion'),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -293,101 +299,109 @@ class _ProfileViewState extends State<_ProfileView> {
     return SingleChildScrollView(
       key: const ValueKey('profile'),
       padding: const EdgeInsets.all(20),
-      child: Form(
-        key: _profileFormKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 16),
-            Center(
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    radius: 72,
-                    backgroundImage: widget.imageProvider,
+      child: Card(
+        elevation: 8,
+        shadowColor: Colors.black26,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        child: Padding(
+          padding: const EdgeInsets.all(22),
+          child: Form(
+            key: _profileFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 8),
+                Center(
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      CircleAvatar(
+                        radius: 72,
+                        backgroundImage: widget.imageProvider,
+                      ),
+                      IconButton.filled(
+                        onPressed: widget.onChangePhoto,
+                        icon: const Icon(Icons.photo_camera_outlined),
+                        tooltip: 'Cambiar foto',
+                      ),
+                    ],
                   ),
-                  IconButton.filled(
-                    onPressed: widget.onChangePhoto,
-                    icon: const Icon(Icons.photo_camera_outlined),
-                    tooltip: 'Cambiar foto',
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  widget.name,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Perfil activo en Nova',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 24),
+                if (_editing) ...[
+                  _EditableField(
+                    controller: _nameController,
+                    label: 'Nombre',
+                    icon: Icons.person_outline,
+                    validatorText: 'Ingresa tu nombre',
+                  ),
+                  const SizedBox(height: 12),
+                  _EditableField(
+                    controller: _emailController,
+                    label: 'Correo',
+                    icon: Icons.email_outlined,
+                    validatorText: 'Ingresa tu correo',
+                    email: true,
+                  ),
+                  const SizedBox(height: 12),
+                  _EditableField(
+                    controller: _careerController,
+                    label: 'Carrera o rol',
+                    icon: Icons.school_outlined,
+                    validatorText: 'Ingresa tu carrera o rol',
+                  ),
+                  const SizedBox(height: 18),
+                  FilledButton.icon(
+                    onPressed: _saveProfile,
+                    icon: const Icon(Icons.save_outlined),
+                    label: const Text('Guardar perfil'),
+                  ),
+                  const SizedBox(height: 8),
+                  OutlinedButton.icon(
+                    onPressed: _cancelEdit,
+                    icon: const Icon(Icons.close),
+                    label: const Text('Cancelar'),
+                  ),
+                ] else ...[
+                  _InfoRow(icon: Icons.person_outline, text: widget.name),
+                  const SizedBox(height: 12),
+                  _InfoRow(icon: Icons.email_outlined, text: widget.email),
+                  const SizedBox(height: 12),
+                  _InfoRow(icon: Icons.school_outlined, text: widget.career),
+                  const SizedBox(height: 12),
+                  const _InfoRow(
+                    icon: Icons.check_circle_outline,
+                    text: 'Sesion iniciada correctamente',
+                  ),
+                  const SizedBox(height: 24),
+                  FilledButton.icon(
+                    onPressed: () => setState(() => _editing = true),
+                    icon: const Icon(Icons.edit_outlined),
+                    label: const Text('Personalizar datos'),
+                  ),
+                  const SizedBox(height: 8),
+                  OutlinedButton.icon(
+                    onPressed: widget.onLogout,
+                    icon: const Icon(Icons.logout),
+                    label: const Text('Salir'),
                   ),
                 ],
-              ),
+              ],
             ),
-            const SizedBox(height: 20),
-            Text(
-              widget.name,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              'Usuario registrado',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 24),
-            if (_editing) ...[
-              _EditableField(
-                controller: _nameController,
-                label: 'Nombre',
-                icon: Icons.person_outline,
-                validatorText: 'Ingresa tu nombre',
-              ),
-              const SizedBox(height: 12),
-              _EditableField(
-                controller: _emailController,
-                label: 'Correo',
-                icon: Icons.email_outlined,
-                validatorText: 'Ingresa tu correo',
-                email: true,
-              ),
-              const SizedBox(height: 12),
-              _EditableField(
-                controller: _careerController,
-                label: 'Carrera o rol',
-                icon: Icons.school_outlined,
-                validatorText: 'Ingresa tu carrera o rol',
-              ),
-              const SizedBox(height: 18),
-              FilledButton.icon(
-                onPressed: _saveProfile,
-                icon: const Icon(Icons.save_outlined),
-                label: const Text('Guardar cambios'),
-              ),
-              const SizedBox(height: 8),
-              OutlinedButton.icon(
-                onPressed: _cancelEdit,
-                icon: const Icon(Icons.close),
-                label: const Text('Cancelar'),
-              ),
-            ] else ...[
-              _InfoRow(icon: Icons.person_outline, text: widget.name),
-              const SizedBox(height: 12),
-              _InfoRow(icon: Icons.email_outlined, text: widget.email),
-              const SizedBox(height: 12),
-              _InfoRow(icon: Icons.school_outlined, text: widget.career),
-              const SizedBox(height: 12),
-              const _InfoRow(
-                icon: Icons.check_circle_outline,
-                text: 'Sesion iniciada correctamente',
-              ),
-              const SizedBox(height: 24),
-              FilledButton.icon(
-                onPressed: () => setState(() => _editing = true),
-                icon: const Icon(Icons.edit_outlined),
-                label: const Text('Editar datos'),
-              ),
-              const SizedBox(height: 8),
-              OutlinedButton.icon(
-                onPressed: widget.onLogout,
-                icon: const Icon(Icons.logout),
-                label: const Text('Cerrar sesion'),
-              ),
-            ],
-          ],
+          ),
         ),
       ),
     );

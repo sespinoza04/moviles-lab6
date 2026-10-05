@@ -13,9 +13,25 @@ class ProfileLoginApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Login Perfil',
+      title: 'Nova ID',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2563EB)),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFE85D3F),
+          primary: const Color(0xFFE85D3F),
+          secondary: const Color(0xFF1F7A5C),
+          surface: const Color(0xFFFFFBF5),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFFFF3E6),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF20352F),
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
+        ),
         useMaterial3: true,
       ),
       home: const HomePage(),
